@@ -20,18 +20,11 @@ static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
 	return -1;
 }
 
-
 int main() {
 	int i;
 	int r;
 	jsmn_parser p;
 	jsmntok_t t[128]; /* We expect no more than 128 tokens */
-
-#ifdef DEBUG_MODE
-	printf("\n<JSON_STRING>\n");
-	printf("%s",JSON_STRING);
-	printf("\n=============\n");
-#endif
 
 	jsmn_init(&p);
 	r = jsmn_parse(&p, JSON_STRING, strlen(JSON_STRING), t, sizeof(t)/sizeof(t[0]));
@@ -45,13 +38,6 @@ int main() {
 		printf("Object expected\n");
 		return 1;
 	}
-	
-	#ifdef DEBUG_MODE
-		for(i = 0; i < r; i++) {
-			printf("[%2d] (%d) %d ~ %d, size:%d\n", i, t[i].type, t[i].start, 
-			t[i].end, t[i].size);
-		}
-	#endif
 
 	/* Loop over all keys of the root object */
 	for (i = 1; i < r; i++) {
@@ -86,5 +72,5 @@ int main() {
 					JSON_STRING + t[i].start);
 		}
 	}
-		return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
